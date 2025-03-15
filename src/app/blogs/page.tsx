@@ -1,4 +1,6 @@
 import BlogCard from "@/components/ui/BlogCard";
+import Spinner from "@/components/ui/Spinner";
+import { useGetBlogQuery } from "@/redux/apis/blogs.slice";
 import { Blog } from "@/types";
 import { Metadata } from "next";
 
@@ -6,9 +8,16 @@ export const metadata : Metadata = {
   title: "NexaBlog | Blogs"
 }
 
-const BlogsPage = async () => {
-    const res = await  fetch('http://localhost:5000/blogs');
-    const blogs = await res.json();
+const BlogsPage =  () => {
+    // const res = await  fetch('http://localhost:5000/blogs');
+    // const blogs = await res.json();
+    // console.log('blogs ', blogs);
+  const {data: blogs, isLoading} = useGetBlogQuery({});
+
+  if(isLoading) {
+    return <Spinner/>
+  }
+
     return (
         <div className="w-[90%] mx-auto">
             <h1 className="text-3xl text-center my-5 font-bold">
